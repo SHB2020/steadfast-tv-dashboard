@@ -1,0 +1,47 @@
+# Render Blueprint for the Steadfast TV Dashboard.
+# When this file is present at the repo root, Render can create the service
+# automatically. See DEPLOY_NOW.md for the click-by-click walkthrough.
+
+services:
+  - type: web
+    name: steadfast-tv-dashboard
+    runtime: node
+    plan: starter
+    autoDeploy: true
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+
+    # Persistent disk so the QuickBooks OAuth tokens and the latest synced
+    # dashboard snapshot survive every redeploy. Without this, you would
+    # have to reconnect QuickBooks every time the service redeploys.
+    disk:
+      name: steadfast-data
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: DATA_DIR
+        value: /var/data
+      - key: COMPANY_NAME
+        value: Steadfast Homebuyers
+      - key: SYNC_INTERVAL_MINUTES
+        value: "15"
+      - key: SYNC_TOKEN
+        generateValue: true
+      - key: BASE_URL
+        sync: false
+      - key: JOBTREAD_GRANT_KEY
+        sync: false
+      - key: QUICKBOOKS_SOURCE_URL
+        sync: false
+      - key: QUICKBOOKS_CLIENT_ID
+        sync: false
+      - key: QUICKBOOKS_CLIENT_SECRET
+        sync: false
+      - key: QUICKBOOKS_REDIRECT_URI
+        sync: false
+      - key: QUICKBOOKS_REALM_ID
+        sync: false

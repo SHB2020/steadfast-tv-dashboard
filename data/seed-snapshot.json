@@ -1,0 +1,233 @@
+{
+  "meta": {
+    "company": "Steadfast Homebuyers",
+    "dashboardTitle": "Steadfast Fix-and-Flip Command Screen",
+    "generatedAt": "2026-04-28T18:12:00-05:00",
+    "sourceMode": "snapshot",
+    "refreshMs": 300000,
+    "note": "This screen auto-refreshes in the browser. Live unattended source syncing still needs production API credentials for JobTread and QuickBooks."
+  },
+  "kpis": {
+    "openJobs": 18,
+    "activeJobs": 5,
+    "openNotActive": 13,
+    "activeAtRisk": 3,
+    "overBudgetActive": 2
+  },
+  "attentionNow": [
+    {
+      "property": "460 Mazies Chapel, Lexington",
+      "timeline": "At Risk",
+      "scheduleSignal": "20 days past target completion",
+      "budgetSignal": "117.9% of rehab budget spent",
+      "qualitySignal": "Repeated repaint and wall repair issues",
+      "action": "Push finish list now and reset the completion date with ownership."
+    },
+    {
+      "property": "5315 HWY 200, Lexington",
+      "timeline": "At Risk",
+      "scheduleSignal": "2 days left to target completion",
+      "budgetSignal": "124.5% of rehab budget spent",
+      "qualitySignal": "Electrical delays still showing in daily logs",
+      "action": "Clear the electrical bottleneck immediately and re-check budget exposure."
+    },
+    {
+      "property": "116 Ohara, Jackson",
+      "timeline": "At Risk",
+      "scheduleSignal": "No completion plan loaded",
+      "budgetSignal": "No rehab budget loaded",
+      "qualitySignal": "Latest comment says the deal may be dead",
+      "action": "Confirm whether this should stay in the active portfolio at all."
+    }
+  ],
+  "portfolioSignals": [
+    {
+      "label": "Timeline",
+      "value": "5 active jobs, with 3 clearly at risk and 1 watchlist start-up job."
+    },
+    {
+      "label": "Budget",
+      "value": "2 active jobs are already above rehab budget. 1 additional active job has no budget loaded yet."
+    },
+    {
+      "label": "Quality",
+      "value": "Only Mazies and HWY 200 show strong quality evidence in daily logs. The rest mostly need cleaner field reporting."
+    },
+    {
+      "label": "Data gap",
+      "value": "13 properties are open in JobTread but not marked Active Job, which muddies the portfolio view on TV."
+    },
+    {
+      "label": "QuickBooks",
+      "value": "Company-level net income and operating cash flow are both negative year to date, so late jobs are hitting a tight environment."
+    }
+  ],
+  "timelineMix": [
+    {
+      "label": "At Risk",
+      "count": 3
+    },
+    {
+      "label": "Watch",
+      "count": 1
+    },
+    {
+      "label": "On Track",
+      "count": 1
+    }
+  ],
+  "activeProjects": [
+    {
+      "property": "116 Ohara, Jackson",
+      "city": "Jackson",
+      "timelineBucket": "At Risk",
+      "rehabOps": "",
+      "scheduleStatusField": "",
+      "purchaseDate": "2026-04-30",
+      "actualRehabStartDate": "",
+      "targetCompletionDate": "",
+      "daysRemaining": null,
+      "purchasePrice": 145000,
+      "rehabBudget": null,
+      "projectedCost": null,
+      "actualCost": null,
+      "actualVsRehabBudget": null,
+      "arv": 285000,
+      "estimatedProfit": 55000,
+      "qualityStatus": "Limited data",
+      "qualityEvidence": "No daily logs. Latest comment on Apr 7 says the deal is dead and inspection did not happen."
+    },
+    {
+      "property": "130 Glover St, Atwood",
+      "city": "Atwood",
+      "timelineBucket": "On Track",
+      "rehabOps": "Construction",
+      "scheduleStatusField": "On Track",
+      "purchaseDate": "2026-04-13",
+      "actualRehabStartDate": "2026-04-16",
+      "targetCompletionDate": "2026-05-22",
+      "daysRemaining": 24,
+      "purchasePrice": 32000,
+      "rehabBudget": 67500,
+      "projectedCost": 78685.72,
+      "actualCost": 12878.05,
+      "actualVsRehabBudget": 0.1908,
+      "arv": 160000,
+      "estimatedProfit": 35000,
+      "qualityStatus": "Limited evidence",
+      "qualityEvidence": "No daily logs. Recent comments are mostly invoice and payment routing."
+    },
+    {
+      "property": "15570 Natchez Trace, Lexington",
+      "city": "Lexington",
+      "timelineBucket": "Watch",
+      "rehabOps": "Construction",
+      "scheduleStatusField": "",
+      "purchaseDate": "2026-04-24",
+      "actualRehabStartDate": "2026-04-27",
+      "targetCompletionDate": "2026-06-03",
+      "daysRemaining": 36,
+      "purchasePrice": 125000,
+      "rehabBudget": 75000,
+      "projectedCost": 84597.5,
+      "actualCost": null,
+      "actualVsRehabBudget": null,
+      "arv": 265000,
+      "estimatedProfit": 35000,
+      "qualityStatus": "Limited evidence",
+      "qualityEvidence": "Start-up coordination comment on Apr 27 references worker and gas scheduling; no daily logs yet."
+    },
+    {
+      "property": "460 Mazies Chapel, Lexington",
+      "city": "Lexington",
+      "timelineBucket": "At Risk",
+      "rehabOps": "Construction",
+      "scheduleStatusField": "Behind",
+      "purchaseDate": "2026-02-04",
+      "actualRehabStartDate": "",
+      "targetCompletionDate": "2026-04-08",
+      "daysRemaining": -20,
+      "purchasePrice": 131500,
+      "rehabBudget": 80000,
+      "projectedCost": 135206.42,
+      "actualCost": 94325.39,
+      "actualVsRehabBudget": 1.1791,
+      "arv": 330000,
+      "estimatedProfit": 70000,
+      "qualityStatus": "Concern",
+      "qualityEvidence": "Daily logs show repainting, wall repairs, blue-tape sheetrock issues, and anticipated delays."
+    },
+    {
+      "property": "5315 HWY 200, Lexington",
+      "city": "Lexington",
+      "timelineBucket": "At Risk",
+      "rehabOps": "Construction",
+      "scheduleStatusField": "",
+      "purchaseDate": "2026-02-04",
+      "actualRehabStartDate": "",
+      "targetCompletionDate": "2026-04-30",
+      "daysRemaining": 2,
+      "purchasePrice": 80173,
+      "rehabBudget": 34250,
+      "projectedCost": 59661.27,
+      "actualCost": 42650.13,
+      "actualVsRehabBudget": 1.2453,
+      "arv": 165000,
+      "estimatedProfit": 36000,
+      "qualityStatus": "Concern",
+      "qualityEvidence": "Daily logs on Apr 20, Apr 22, and Apr 27 all flagged anticipated delays; electrician note says they are struggling."
+    }
+  ],
+  "openNotActivePreview": [
+    {
+      "property": "2504 Beech Bluff Rd, Jackson",
+      "city": "Jackson",
+      "stage": "",
+      "reason": "Inspection date set, but Active Job is still false."
+    },
+    {
+      "property": "177 Christmasville, Trenton",
+      "city": "Trenton",
+      "stage": "",
+      "reason": "Open in JobTread but not marked active."
+    },
+    {
+      "property": "54 Fleetwood, Jackson",
+      "city": "Jackson",
+      "stage": "Pre-Construction",
+      "reason": "Visible in open jobs but still not active."
+    },
+    {
+      "property": "967 Broad, Lexington",
+      "city": "Lexington",
+      "stage": "Repair Amendment/Punch List",
+      "reason": "Late-stage property is still open and not active."
+    }
+  ],
+  "finance": {
+    "periodLabel": "Jan 1 to Apr 29, 2026",
+    "totalIncome": 1147201.98,
+    "grossProfit": 323363.06,
+    "netIncome": -49201.63,
+    "cashAtEnd": 275177.23,
+    "operatingCashFlow": -172184.15,
+    "monthlyNetIncome": [
+      {
+        "label": "Jan",
+        "value": -73864.88
+      },
+      {
+        "label": "Feb",
+        "value": -64238.5
+      },
+      {
+        "label": "Mar",
+        "value": -29368.03
+      },
+      {
+        "label": "Apr",
+        "value": -95314.92
+      }
+    ]
+  }
+}

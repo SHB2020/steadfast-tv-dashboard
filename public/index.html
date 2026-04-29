@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Steadfast TV Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="screen">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Steadfast Homebuyers</p>
+          <h1 id="title">Fix-and-Flip Command Screen</h1>
+        </div>
+        <div class="meta">
+          <div class="meta-block">
+            <span class="meta-label">Last Sync</span>
+            <strong id="last-sync">Loading</strong>
+          </div>
+          <div class="meta-block">
+            <span class="meta-label">Refresh</span>
+            <strong id="refresh-mode">Every 5 min</strong>
+          </div>
+          <div class="meta-block clock">
+            <span class="meta-label">Now</span>
+            <strong id="clock">--:--</strong>
+          </div>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="hero-rail" id="kpi-rail"></section>
+
+        <section class="main-grid">
+          <section class="attention-panel">
+            <div class="section-head">
+              <span class="eyebrow">Leadership Attention</span>
+              <h2>What Nathan and Wally Should Look At First</h2>
+            </div>
+            <div class="attention-list" id="attention-list"></div>
+          </section>
+
+          <aside class="signals-panel">
+            <div class="section-head compact">
+              <span class="eyebrow">Portfolio Read</span>
+              <h2>Operating Signals</h2>
+            </div>
+            <div class="signals-list" id="signals-list"></div>
+
+            <div class="section-head compact section-gap">
+              <span class="eyebrow">Timeline Mix</span>
+              <h2>Active Jobs</h2>
+            </div>
+            <div class="mix-list" id="mix-list"></div>
+          </aside>
+        </section>
+
+        <section class="bottom-grid">
+          <section class="active-panel">
+            <div class="section-head compact">
+              <span class="eyebrow">Live Jobs</span>
+              <h2>Active Rehab Properties</h2>
+            </div>
+            <div class="project-grid" id="project-grid"></div>
+          </section>
+
+          <aside class="finance-panel">
+            <div class="section-head compact">
+              <span class="eyebrow">Company Context</span>
+              <h2>QuickBooks Pressure</h2>
+            </div>
+            <div class="finance-kpis" id="finance-kpis"></div>
+            <div class="spark-wrap">
+              <div class="spark-chart" id="spark-chart"></div>
+              <div class="spark-labels" id="spark-labels"></div>
+            </div>
+            <div class="open-gap">
+              <div class="section-head compact">
+                <span class="eyebrow">Cleanup Queue</span>
+                <h2>Open But Not Active</h2>
+              </div>
+              <div id="open-gap-list"></div>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

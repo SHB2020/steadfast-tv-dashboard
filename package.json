@@ -1,0 +1,15 @@
+{
+  "name": "steadfast-tv-dashboard",
+  "version": "1.0.0",
+  "description": "Hosted office TV dashboard for Steadfast Homebuyers fix-and-flip operations.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "sync": "node scripts/run-sync.mjs",
+    "build-snapshot": "node scripts/build-snapshot.mjs"
+  }
+}
