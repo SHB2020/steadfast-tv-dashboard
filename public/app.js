@@ -258,9 +258,17 @@ async function loadDashboard() {
     lastSync.textContent = formatSyncTime(data.meta?.generatedAt);
     refreshMode.textContent = `Every ${Math.round((data.meta?.refreshMs || REFRESH_MS) / 60000)} min`;
 
+    // Strip the QuickBooks signal from Operating Signals when QB isn't connected
+    // (or when finance is still the bundled seed). The QuickBooks Pressure
+    // panel below uses the same heuristic — we want both to disappear together.
+    const isSeedFinance = data.finance?.periodLabel === "Jan 1 to Apr 29, 2026";
+    const signals = (!data.finance || isSeedFinance)
+      ? (data.portfolioSignals || []).filter((s) => s.label !== "QuickBooks")
+      : data.portfolioSignals;
+
     renderKpis(data.kpis);
     renderAttention(data.attentionNow);
-    renderSignals(data.portfolioSignals);
+    renderSignals(signals);
     renderMix(data.timelineMix);
     renderProjects(data.activeProjects);
     renderFinance(data.finance);
