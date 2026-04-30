@@ -6,13 +6,13 @@ Owner / point of contact: Matt at Steadfast Homebuyers (matt@steadfasthb.com).
 
 ---
 
-## 0. Current Status (as of 2026-04-29 evening)
+## 0. Current Status (as of 2026-04-30 afternoon)
 
 - **Service:** Live and healthy. `mode: "live"`, last sync successful, no errors.
-- **JobTread:** Live. Pulling 18 open jobs, 6 marked Active, every 15 minutes.
-- **QuickBooks:** Not connected yet. Finance panel currently shows seed data (Net income –$49K placeholder). Setup is paused — Intuit's developer portal was returning `/app/developer/error` after Terms acceptance and would not recover. Resume when their portal is healthy.
-- **Repo:** `main` branch, 4 commits.
-- **Office TV:** Not yet pointed at the URL — the URL works in any browser, kiosk setup is the next physical step.
+- **JobTread:** Live. Pulling 18 open jobs, 6 marked Active, every 15 minutes. Old unused grants ("New Grant JOBTREAD DASHBOARD" and "CHatGPT Key" under "All Organizations") deleted; only "TV Dashboard (Render)" under "Steadfast Home buyers" remains.
+- **QuickBooks:** **Deferred indefinitely.** Setup paused on 4-29 (Intuit portal /error issue), retried 4-30 and discovered Intuit's new developer onboarding requires enrollment in a platform-fees billing program. Matt opted not to incur platform fees for the dashboard's current scope (QB data isn't load-bearing for day-to-day ops). The dashboard hides the QuickBooks Pressure panel and the QuickBooks line in Operating Signals — see §6.2 — so the TV shows only trusted JobTread data.
+- **Repo:** `main` branch, 9 commits.
+- **Office TV:** Not yet pointed at the URL — the URL works in any browser, kiosk setup is the next physical step. Started a Fire Stick attempt; can be resumed.
 
 If everything still looks like that when you read this, no action needed. If anything has drifted, see §5.1 for how to verify and §6/§7 for fixes.
 
@@ -213,31 +213,32 @@ If the snapshot or token file gets corrupted:
 
 **Helpful past tense:** if you re-encounter `Cannot read properties of null (reading 'id')`, see the historical record above. If you re-encounter `413`, inspect the error message — the code now appends JobTread's response body to make the cause obvious. If active job count grows beyond 25, bump `jobs.size` in `lib/providers/jobtread-provider.mjs` slightly (or paginate).
 
-### 6.2 QuickBooks — connection paused
+### 6.2 QuickBooks — deferred (panel already hidden on the TV)
 
-**Status:** Not connected. Finance panel on the TV dashboard is showing seed data (Net income –$49K placeholder, Jan-Apr monthly bars). These look real and aren't — flag this for Matt before the dashboard goes on the actual office TV.
+**Status as of 2026-04-30:** Not connected. Both the QuickBooks Pressure panel (bottom-right) and the QuickBooks line in the Operating Signals panel (top-right) are auto-hidden on the TV dashboard. The hide is keyed off `finance.periodLabel === "Jan 1 to Apr 29, 2026"` (the seed snapshot's exact period). When real QuickBooks data ever flows in, both sections re-appear automatically — no code change needed.
 
-**What was attempted on 2026-04-29:** Started the Intuit developer app creation flow. Matt signed into developer.intuit.com, clicked "I accept the Intuit Developer Terms of Service", and clicked Submit. Intuit redirected to `https://developer.intuit.com/app/developer/error` and stayed stuck there even after logout/login, hard refresh, and direct navigation to /myapps and /dashboard. This appears to be a known Intuit-side glitch where the portal needs time to register the Terms acceptance.
+**Why deferred:** Matt attempted Intuit developer signup on 4-29 (got stuck on Intuit's `/app/developer/error` page after Terms acceptance) and again on 4-30 (Intuit's new onboarding flow asks for enrollment in a platform-fees billing program). For the dashboard's current scope (single internal app, read-only access to a few finance reports), the platform-fee cost isn't justified — leadership reads QuickBooks directly when they want the numbers. Decision: skip QB indefinitely, hide the panel, revisit later if Intuit ships a free tier.
 
-**To resume QuickBooks setup later:**
+**To resume QuickBooks if/when desired:**
 
-1. Have Matt try `https://developer.intuit.com/app/developer/myapps` again in his normal Chrome (not the Claude Workshop browser, which still has the broken session). A few hours of distance usually resolves it.
-2. Once he's at the My Apps dashboard, create app → "QuickBooks Online and Payments".
-3. Production Settings → Keys & credentials → add Redirect URI: `https://steadfast-tv-dashboard.onrender.com/api/qbo/callback`
-4. Copy the Production **Client ID** and **Client Secret**.
-5. Render Environment tab → set these values:
+1. Decide whether to accept Intuit's platform fees for our use case — check current pricing at developer.intuit.com.
+2. Sign into developer.intuit.com → complete the onboarding (Account Setup → Workspace Setup → App setup, may require entering company address for billing).
+3. Create app → "QuickBooks Online and Payments".
+4. Production Settings → Keys & credentials → add Redirect URI: `https://steadfast-tv-dashboard.onrender.com/api/qbo/callback`
+5. Copy the Production **Client ID** and **Client Secret**.
+6. Render Environment tab → set these values:
    - `QUICKBOOKS_CLIENT_ID` = the Client ID
    - `QUICKBOOKS_CLIENT_SECRET` = the Client Secret
    - `QUICKBOOKS_REDIRECT_URI` = `https://steadfast-tv-dashboard.onrender.com/api/qbo/callback`
    - Leave `QUICKBOOKS_REALM_ID` blank (auto-populates).
-   - **Important:** Render's React form has a quirk where programmatic value-set ignores the new value. Use real keyboard events: triple-click to select all, then type. We hit this on JobTread too.
-6. Save and redeploy.
-7. Matt opens `https://steadfast-tv-dashboard.onrender.com/api/qbo/connect` in his browser, signs into QuickBooks Online, clicks **Authorize**.
-8. Verify with `https://steadfast-tv-dashboard.onrender.com/api/qbo/status` → should show `connected: true`. The next sync cycle pulls real finance data into the panel.
+   - **Important:** Render's React form has a quirk where programmatic `form_input` value-set is silently ignored. Use real keyboard events: triple-click to select all, then type. We hit this on JobTread too.
+7. Save and redeploy.
+8. Matt opens `https://steadfast-tv-dashboard.onrender.com/api/qbo/connect` in his browser, signs into QuickBooks Online, clicks **Authorize**.
+9. Verify with `https://steadfast-tv-dashboard.onrender.com/api/qbo/status` → should show `connected: true`. The next sync cycle pulls real finance data, and the auto-hide logic detects the new periodLabel and reveals both panels.
 
 OAuth tokens are stored on the persistent disk at `/var/data/quickbooks-tokens.json`, so the consent flow is one-time per environment.
 
-**If Matt wants the QB panel hidden until OAuth is done** (so the TV doesn't show stale seed numbers in the meantime): edit `public/app.js`, find `function renderFinance(finance)`, and add `if (!finance || finance.periodLabel?.startsWith("Jan 1 to Apr 29, 2026")) { ... hide panel ... }`. Push via GitHub web editor, Render auto-deploys.
+**Where the hide logic lives:** `public/app.js` — see the `isSeedFinance` checks in both the `loadDashboard` function (filters `data.portfolioSignals`) and `renderFinance` (toggles `#qb-section` display). The wrapper `<div id="qb-section">` is in `public/index.html`.
 
 ### 6.3 No custom domain yet
 
@@ -257,14 +258,9 @@ The whole purpose of this build is the office TV. As of handoff, the dashboard U
 3. Make sure the TV's display sleep is off / set to a long timeout.
 4. Verify the page is still healthy the next morning — auto-refresh runs every 5 min, full reload every 24 h.
 
-### 6.5 Cleanup loose ends in JobTread (cosmetic, optional)
+### 6.5 JobTread grants cleanup — DONE
 
-Matt's JobTread Profile → Grants list contains two unused grants under the "All Organizations" section:
-
-- "**New Grant JOBTREAD DASHBOARD**" — the original All-Orgs grant we replaced. Last used right before the fix.
-- "**CHatGPT Key**" — created earlier, never used.
-
-Both are harmless but clutter the audit list. Matt can delete them via the red trash icon next to each. Don't delete the grant labeled "**TV Dashboard (Render)**" under the **Steadfast Home buyers** sub-section — that's the one currently authorizing this app.
+Done on 2026-04-30. Deleted "New Grant JOBTREAD DASHBOARD" and "CHatGPT Key" from "All Organizations". The active grant "TV Dashboard (Render)" under "Steadfast Home buyers" was retained — that's what the live deployment authenticates with.
 
 ---
 
@@ -272,9 +268,12 @@ Both are harmless but clutter the audit list. Matt can delete them via the red t
 
 | Message | What it did |
 |---|---|
+| Also strip QuickBooks signal from Operating Signals when not connected | Final touch on the QB hide — also drops the "QuickBooks: Net income…" line from the top-right Operating Signals panel. |
+| Hide QuickBooks panel until OAuth is connected | Wrapped the QB Pressure section in `<div id="qb-section">` and added `display:none` logic in `renderFinance` keyed on the seed periodLabel. |
+| Refresh agent handoff: JobTread live, QuickBooks deferred | First full update of `AGENT_HANDOFF.md` after JobTread went live. |
 | Trim sizes and surface JobTread error body for diagnostics | The change that made sync go live. Reduced jobs.size 100→25, customFieldValues.size 30→20, added response body to error messages. |
 | Reduce active jobs query size from 100 to 30 to fit JobTread limits | Earlier attempt to escape 413; superseded by the trim-sizes commit above. |
-| Fetch JobTread job details one at a time to avoid 413 | Refactored detail query into a per-job loop (turned out the 413 was on a different call, but this is still a useful resilience improvement). |
+| Fetch JobTread job details one at a time to avoid 413 | Refactored detail query into a per-job loop. Turned out the 413 was on a different call, but this is still a useful resilience improvement. |
 | Surface JobTread response when no organization is returned | Diagnostic improvement that made the "All Organizations grant has null org" issue visible. Necessary to discover the real root cause. |
 | Create .gitignore | Added after initial upload because GitHub's drag-and-drop skipped dotfiles the first time. |
 | Initial production-ready upload of TV dashboard | First commit — 21 files at repo root. |
