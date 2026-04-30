@@ -177,16 +177,19 @@ function renderProjects(rows = []) {
 }
 
 function renderFinance(finance) {
-  if (!finance) {
-    financeKpis.innerHTML = `
-      <div class="finance-row">
-        <strong>Status</strong>
-        <span>QuickBooks is not connected yet. Visit <code>/api/qbo/connect</code> to link it.</span>
-      </div>`;
+  // Hide the entire QuickBooks Pressure section when not connected, OR when
+  // the snapshot still contains the bundled seed finance numbers. We never
+  // want to leave stale-but-real-looking finance on the TV.
+  const qbSection = document.getElementById("qb-section");
+  const isSeedFinance = finance?.periodLabel === "Jan 1 to Apr 29, 2026";
+  if (!finance || isSeedFinance) {
+    if (qbSection) qbSection.style.display = "none";
+    financeKpis.innerHTML = "";
     sparkChart.innerHTML = "";
     sparkLabels.innerHTML = "";
     return;
   }
+  if (qbSection) qbSection.style.display = "";
 
   const financeRows = [
     ["Period", finance.periodLabel ?? "—"],
